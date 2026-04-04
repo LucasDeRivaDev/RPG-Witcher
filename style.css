@@ -1,0 +1,626 @@
+/* ======================================================
+   EL BRUJO DEL GATO — RPG NARRATIVO v2.0
+   style.css — Estética oscura medieval
+   ====================================================== */
+
+/* ======================================================
+   RESET Y VARIABLES
+   ====================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg:       #050404;
+  --color-panel:    rgba(8, 6, 4, 0.92);
+  --color-borde:    #5a3e1b;
+  --color-texto:    #c8b898;
+  --color-titulo:   #e8d5a0;
+  --color-dorado:   #c9a84c;
+  --fuente-titulo:  Georgia, 'Times New Roman', serif;
+  --fuente-texto:   'Palatino Linotype', Palatino, serif;
+}
+
+body {
+  font-family: var(--fuente-texto);
+  background: var(--color-bg);
+  color: var(--color-texto);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ======================================================
+   BARRA DE STATS
+   ====================================================== */
+#stats-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 0.55rem 1.5rem;
+  background: rgba(4, 3, 2, 0.96);
+  border-bottom: 2px solid var(--color-borde);
+  backdrop-filter: blur(6px);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-icon    { font-size: 1rem; }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: #6a5a40;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 0.82rem;
+  color: var(--color-dorado);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.stat-bar-container {
+  width: 80px;
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: #4ade80;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+/* ======================================================
+   CONTENEDOR PRINCIPAL
+   ====================================================== */
+#game-container {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* ======================================================
+   FONDOS DE ESCENA — gradientes CSS atmosféricos
+   Para agregar un fondo nuevo: copiar uno existente,
+   cambiarle el nombre de clase y ajustar los colores.
+   ====================================================== */
+#scene-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  transition: background 1s ease;
+}
+
+/* Taberna — cálida, anaranjada */
+.fondo-taberna {
+  background:
+    radial-gradient(ellipse at 20% 85%, rgba(180, 80, 10, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 80%, rgba(150, 55, 5, 0.18) 0%, transparent 50%),
+    linear-gradient(to bottom, #0e0904 0%, #170d04 45%, #0c0802 100%);
+}
+
+/* Noche exterior — azul muy oscuro */
+.fondo-noche {
+  background:
+    radial-gradient(ellipse at 50% 5%, rgba(25, 40, 90, 0.35) 0%, transparent 55%),
+    radial-gradient(circle at 15% 25%, rgba(200,200,255,0.04) 0%, transparent 18%),
+    radial-gradient(circle at 82% 18%, rgba(200,200,255,0.04) 0%, transparent 14%),
+    linear-gradient(to bottom, #040610 0%, #09101e 45%, #05080c 100%);
+}
+
+/* Bosque — verde oscuro, opresivo */
+.fondo-bosque {
+  background:
+    radial-gradient(ellipse at 35% 20%, rgba(15, 55, 15, 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 65% 35%, rgba(8, 35, 8, 0.18) 0%, transparent 45%),
+    linear-gradient(to bottom, #020702 0%, #060f06 55%, #030803 100%);
+}
+
+/* Aldea quemada — naranja-rojo sutil */
+.fondo-aldea-quemada {
+  background:
+    radial-gradient(ellipse at 50% 75%, rgba(190, 55, 8, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 18% 85%, rgba(160, 35, 0, 0.18) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 65%, rgba(130, 25, 0, 0.14) 0%, transparent 35%),
+    linear-gradient(to bottom, #0c0504 0%, #130904 45%, #090403 100%);
+}
+
+/* Cueva — negro/púrpura, claustrofóbico */
+.fondo-cueva {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(35, 15, 70, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse at 50% 100%, rgba(70, 25, 8, 0.1) 0%, transparent 40%),
+    linear-gradient(to bottom, #020104 0%, #05020e 45%, #020104 100%);
+}
+
+/* Laboratorio — púrpura alquímico, misterioso */
+.fondo-laboratorio {
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(70, 20, 140, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 30%, rgba(140, 60, 10, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(30, 0, 60, 0.10) 0%, transparent 60%),
+    linear-gradient(to bottom, #030108 0%, #08040f 40%, #050109 100%);
+}
+
+/* Amanecer — cálido, esperanza */
+.fondo-amanecer {
+  background:
+    radial-gradient(ellipse at 50% 70%, rgba(210, 110, 25, 0.28) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 90%, rgba(170, 75, 8, 0.18) 0%, transparent 50%),
+    linear-gradient(to bottom, #090502 0%, #180c05 30%, #100905 100%);
+}
+
+/* Muerte — rojo muy oscuro */
+.fondo-muerte {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(90, 0, 0, 0.18) 0%, transparent 70%),
+    linear-gradient(to bottom, #040101 0%, #090202 45%, #030101 100%);
+}
+
+/* ======================================================
+   PANEL NARRATIVO
+   ====================================================== */
+#scene-panel {
+  position: relative;
+  z-index: 10;
+  width: min(720px, 90vw);
+  margin: 0 auto 2rem;
+  padding: 2rem 2.5rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-borde);
+  border-top: 3px solid var(--color-dorado);
+  box-shadow: 0 0 50px rgba(0,0,0,0.85), inset 0 0 40px rgba(0,0,0,0.25);
+}
+
+#scene-panel::before {
+  content: '⚜';
+  display: block;
+  text-align: center;
+  color: var(--color-dorado);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+#scene-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.35rem;
+  color: var(--color-titulo);
+  text-align: center;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 12px rgba(201, 168, 76, 0.25);
+}
+
+#scene-title::after {
+  content: '';
+  display: block;
+  width: 55%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-borde), transparent);
+  margin: 0.8rem auto 0;
+}
+
+#scene-text {
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: #c0b090;
+  margin-bottom: 1.6rem;
+  white-space: pre-line;
+}
+
+/* ======================================================
+   BOTONES DE OPCIONES NARRATIVAS
+   ====================================================== */
+#scene-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.btn-opcion {
+  padding: 0.82rem 1.4rem;
+  background: rgba(50, 30, 8, 0.55);
+  color: var(--color-texto);
+  border: 1px solid rgba(90, 60, 25, 0.55);
+  border-left: 3px solid var(--color-dorado);
+  font-family: var(--fuente-texto);
+  font-size: 0.93rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.btn-opcion:hover {
+  background: rgba(80, 50, 12, 0.80);
+  border-color: var(--color-dorado);
+  color: var(--color-titulo);
+  transform: translateX(5px);
+  box-shadow: -3px 0 18px rgba(201, 168, 76, 0.18);
+}
+
+.btn-opcion:active { transform: translateX(2px); }
+
+/* ======================================================
+   PANEL DE COMBATE
+   ====================================================== */
+#combat-panel {
+  position: relative;
+  z-index: 10;
+  width: min(720px, 90vw);
+  margin: 0 auto 2rem;
+  padding: 1.5rem 2rem;
+  background: rgba(4, 2, 2, 0.93);
+  border: 1px solid #6b1a1a;
+  border-top: 3px solid #bb2020;
+  box-shadow: 0 0 50px rgba(120, 10, 10, 0.35), inset 0 0 30px rgba(0,0,0,0.4);
+}
+
+/* Encabezado del combate + badge de fase */
+#combat-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+#combat-header h2 {
+  font-family: var(--fuente-titulo);
+  color: #cc3030;
+  font-size: 1.35rem;
+  letter-spacing: 4px;
+  text-shadow: 0 0 18px rgba(200, 40, 40, 0.55);
+}
+
+/* Badge "FASE 2" — aparece en la transición del boss */
+#combat-fase {
+  padding: 0.2rem 0.7rem;
+  background: rgba(150, 20, 200, 0.25);
+  border: 1px solid #8b20bb;
+  color: #d080ff;
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: fasePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fasePulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(180, 50, 230, 0.3); }
+  50%       { box-shadow: 0 0 18px rgba(180, 50, 230, 0.7); }
+}
+
+/* Arena de combate */
+#combat-arena {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+
+/* Enemigo */
+#enemy-info {
+  text-align: center;
+  padding: 1rem 1rem 0.8rem;
+  background: rgba(90, 8, 8, 0.12);
+  border: 1px solid rgba(100, 25, 25, 0.28);
+}
+
+#enemy-visual {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 0.4rem;
+  filter: drop-shadow(0 0 12px rgba(200, 50, 50, 0.45));
+  animation: enemyFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes enemyFloat {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Animación especial para el jefe en fase 2 */
+.boss-fase2 #enemy-visual {
+  filter: drop-shadow(0 0 18px rgba(150, 30, 220, 0.6));
+  animation: enemyFloat 2.2s ease-in-out infinite, bossGlow 3s ease-in-out infinite;
+}
+
+@keyframes bossGlow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(150, 30, 220, 0.4)); }
+  50%       { filter: drop-shadow(0 0 28px rgba(180, 50, 250, 0.8)); }
+}
+
+#enemy-name {
+  color: #e07070;
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+/* Barras de vida en combate */
+.combat-bar-container {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0.35rem 0;
+}
+
+.combat-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+.enemy-vida-bar  { background: #f87171; }
+.player-vida-bar { background: #4ade80; }
+
+#enemy-vida-text {
+  font-size: 0.78rem;
+  color: #a06060;
+  letter-spacing: 0.5px;
+}
+
+/* ======================================================
+   INDICADORES DE ESTADO (quemadura, crítico)
+   ====================================================== */
+#combat-status-bar {
+  display: flex;
+  gap: 0.6rem;
+  min-height: 22px;
+}
+
+.status-badge {
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 2px;
+}
+
+/* Quemadura — naranja */
+#combat-burn {
+  background: rgba(200, 80, 0, 0.25);
+  border: 1px solid #c05000;
+  color: #f0a050;
+  animation: burnPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes burnPulse {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.6; }
+}
+
+/* Crítico — amarillo eléctrico */
+.crit-badge {
+  background: rgba(220, 180, 0, 0.25);
+  border: 1px solid #b89000;
+  color: #ffe060;
+}
+
+/* Animación flash para críticos */
+.crit-flash {
+  animation: critFlash 0.5s ease-out forwards;
+}
+
+@keyframes critFlash {
+  0%   { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0; transform: scale(1);    }
+}
+
+/* ======================================================
+   LOG DE COMBATE
+   ====================================================== */
+#combat-log {
+  padding: 0.9rem 1.1rem;
+  background: rgba(0, 0, 0, 0.45);
+  border-left: 3px solid #5a2818;
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+}
+
+#combat-message {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #c0a880;
+  font-style: italic;
+  transition: color 0.3s ease;
+}
+
+/* Resaltar mensajes de revelación (fase 2) */
+#combat-message.revelacion {
+  color: #d080ff;
+  font-style: normal;
+  text-shadow: 0 0 8px rgba(200, 80, 255, 0.4);
+}
+
+/* ======================================================
+   VIDA DEL JUGADOR EN COMBATE
+   ====================================================== */
+#player-combat-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  background: rgba(0, 18, 0, 0.18);
+  border: 1px solid rgba(40, 90, 40, 0.2);
+  font-size: 0.83rem;
+  color: #7aaa7a;
+}
+
+#player-combat-info .combat-bar-container { flex: 1; }
+
+#player-combat-vida-text {
+  white-space: nowrap;
+  color: #5a8a5a;
+  font-size: 0.78rem;
+}
+
+/* ======================================================
+   BOTONES DE COMBATE
+   ====================================================== */
+#combat-options {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.btn-combat {
+  flex: 1;
+  min-width: 110px;
+  padding: 0.82rem 0.9rem;
+  font-family: var(--fuente-texto);
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: all 0.18s ease;
+}
+
+.btn-combat:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Atacar — rojo */
+.btn-attack {
+  background: rgba(130, 22, 22, 0.65);
+  color: #f0c0c0;
+  border: 1px solid #7a1c1c;
+}
+.btn-attack:hover:not(:disabled) {
+  background: rgba(175, 28, 28, 0.90);
+  box-shadow: 0 0 18px rgba(200, 50, 50, 0.4);
+}
+
+/* Esquivar — azul */
+.btn-dodge {
+  background: rgba(22, 55, 100, 0.65);
+  color: #c0d5f0;
+  border: 1px solid #1a356a;
+}
+.btn-dodge:hover:not(:disabled) {
+  background: rgba(28, 75, 145, 0.90);
+  box-shadow: 0 0 18px rgba(50, 100, 210, 0.32);
+}
+
+/* Igni — naranja fuego */
+.btn-igni {
+  background: rgba(95, 45, 8, 0.65);
+  color: #f0d0a0;
+  border: 1px solid #703508;
+}
+.btn-igni:hover:not(:disabled) {
+  background: rgba(155, 65, 10, 0.90);
+  box-shadow: 0 0 18px rgba(210, 100, 20, 0.4);
+}
+
+/* ======================================================
+   NOTIFICACIONES
+   ====================================================== */
+#notification {
+  position: fixed;
+  bottom: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: rgba(8, 6, 3, 0.96);
+  border: 1px solid var(--color-dorado);
+  color: var(--color-dorado);
+  padding: 0.55rem 1.5rem;
+  font-size: 0.88rem;
+  font-weight: bold;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  letter-spacing: 1.2px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ======================================================
+   ANIMACIONES DE TRANSICIÓN ENTRE ESCENAS
+   ====================================================== */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Efecto dramático para la transición de fase del boss */
+.fase-transition {
+  animation: faseTransition 3s ease forwards;
+}
+
+@keyframes faseTransition {
+  0%   { filter: brightness(1);   }
+  20%  { filter: brightness(3);   }
+  40%  { filter: brightness(0.3); }
+  100% { filter: brightness(1);   }
+}
+
+/* ======================================================
+   UTILIDADES
+   ====================================================== */
+.hidden { display: none !important; }
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+@media (max-width: 580px) {
+  #stats-bar {
+    gap: 0.75rem;
+    padding: 0.45rem 0.8rem;
+  }
+
+  .stat-bar-container { width: 48px; }
+  .stat-label         { display: none; }
+
+  #scene-panel,
+  #combat-panel {
+    padding: 1.4rem 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  #scene-title  { font-size: 1.1rem; }
+  #scene-text   { font-size: 0.88rem; }
+
+  #combat-options { flex-direction: column; }
+  #enemy-visual   { font-size: 3rem; }
+}

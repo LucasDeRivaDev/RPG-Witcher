@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Brujo del Gato — RPG Narrativo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =====================================================
+       BARRA DE STATS — siempre visible arriba
+  ====================================================== -->
+  <div id="stats-bar">
+
+    <div class="stat">
+      <span class="stat-icon">❤️</span>
+      <div class="stat-info">
+        <span class="stat-label">VIDA</span>
+        <div class="stat-bar-container">
+          <div class="stat-bar" id="vida-bar"></div>
+        </div>
+        <span class="stat-value" id="vida-value">100/100</span>
+      </div>
+    </div>
+
+    <div class="stat">
+      <span class="stat-icon">💰</span>
+      <div class="stat-info">
+        <span class="stat-label">ORO</span>
+        <span class="stat-value" id="oro-value">50</span>
+      </div>
+    </div>
+
+    <div class="stat">
+      <span class="stat-icon">⭐</span>
+      <div class="stat-info">
+        <span class="stat-label">EXP</span>
+        <span class="stat-value" id="exp-value">0</span>
+      </div>
+    </div>
+
+    <div class="stat">
+      <span class="stat-icon">🗡️</span>
+      <div class="stat-info">
+        <span class="stat-label">NIVEL</span>
+        <span class="stat-value" id="nivel-value">1</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       CONTENEDOR PRINCIPAL
+  ====================================================== -->
+  <div id="game-container">
+
+    <!-- Fondo de escena — su clase CSS cambia por escena -->
+    <div id="scene-bg" class="fondo-taberna"></div>
+
+    <!-- ================================================
+         PANEL NARRATIVO
+    ================================================= -->
+    <div id="scene-panel">
+      <h2 id="scene-title"></h2>
+      <p id="scene-text"></p>
+      <div id="scene-options"></div>
+    </div>
+
+    <!-- ================================================
+         PANEL DE COMBATE
+    ================================================= -->
+    <div id="combat-panel" class="hidden">
+
+      <!-- Encabezado con título y badge de fase (boss) -->
+      <div id="combat-header">
+        <h2>⚔️ COMBATE</h2>
+        <!-- Badge de fase — solo visible en el combate del jefe -->
+        <span id="combat-fase" class="hidden">FASE 2</span>
+      </div>
+
+      <div id="combat-arena">
+
+        <!-- Enemigo -->
+        <div id="enemy-info">
+          <div id="enemy-visual"></div>
+          <h3 id="enemy-name"></h3>
+          <div class="combat-bar-container">
+            <div class="combat-bar enemy-vida-bar" id="enemy-vida-bar"></div>
+          </div>
+          <span id="enemy-vida-text"></span>
+        </div>
+
+        <!-- Indicadores de estado — quemadura, etc. -->
+        <div id="combat-status-bar">
+          <span id="combat-burn" class="status-badge hidden">🔥 Quemando</span>
+          <span id="combat-crit-flash" class="status-badge crit-badge hidden">⚡ CRÍTICO</span>
+        </div>
+
+        <!-- Log del turno -->
+        <div id="combat-log">
+          <p id="combat-message">El combate comienza...</p>
+        </div>
+
+        <!-- Vida del jugador en combate -->
+        <div id="player-combat-info">
+          <span>Tu vida:</span>
+          <div class="combat-bar-container">
+            <div class="combat-bar player-vida-bar" id="player-combat-vida-bar"></div>
+          </div>
+          <span id="player-combat-vida-text"></span>
+        </div>
+
+      </div>
+
+      <!-- Botones de combate -->
+      <div id="combat-options">
+        <button class="btn-combat btn-attack" onclick="combatAction('atacar')">
+          ⚔️ Atacar
+        </button>
+        <button class="btn-combat btn-dodge" onclick="combatAction('esquivar')">
+          🛡️ Esquivar
+        </button>
+        <button class="btn-combat btn-igni" id="btn-igni" onclick="combatAction('igni')">
+          🔥 Señal Igni
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Notificaciones flotantes de stats -->
+  <div id="notification" class="hidden"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>
