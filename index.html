@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Brujo del Gato — RPG Narrativo</title>
+
+  <!-- Preload de las primeras imágenes que verá el jugador.
+       El navegador las descarga con alta prioridad antes de renderizar. -->
+  <link rel="preload" as="image" href="assets/backgrounds/taberna.jpg">
+  <link rel="preload" as="image" href="assets/backgrounds/bosque.jpg">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -48,6 +54,14 @@
       </div>
     </div>
 
+    <div class="stat">
+      <span class="stat-icon">🩹</span>
+      <div class="stat-info">
+        <span class="stat-label">VENDAS</span>
+        <span class="stat-value" id="vendas-value">2</span>
+      </div>
+    </div>
+
   </div>
 
   <!-- =====================================================
@@ -57,6 +71,24 @@
 
     <!-- Fondo de escena — su clase CSS cambia por escena -->
     <div id="scene-bg" class="fondo-taberna"></div>
+
+    <!-- ================================================
+         CAPA DE EFECTOS ATMOSFÉRICOS
+         z-index 1: sobre el fondo, bajo el contenido
+    ================================================= -->
+    <div id="effects-layer">
+
+      <!-- Niebla: 3 tiras animadas a distintas velocidades -->
+      <div id="fog-layer">
+        <div class="fog-strip fog-1"></div>
+        <div class="fog-strip fog-2"></div>
+        <div class="fog-strip fog-3"></div>
+      </div>
+
+      <!-- Partículas: polvo o cenizas según la escena -->
+      <canvas id="particles-canvas"></canvas>
+
+    </div>
 
     <!-- ================================================
          PANEL NARRATIVO
@@ -91,10 +123,35 @@
           <span id="enemy-vida-text"></span>
         </div>
 
-        <!-- Indicadores de estado — quemadura, etc. -->
+        <!-- Segundo enemigo — visible solo en bruja fase 2 -->
+        <div id="enemy2-info" class="hidden">
+          <h3 id="enemy2-name">Ghoul Invocado</h3>
+          <div class="combat-bar-container">
+            <div class="combat-bar enemy-vida-bar" id="enemy2-vida-bar"></div>
+          </div>
+          <span id="enemy2-vida-text"></span>
+        </div>
+
+        <!-- Selección de objetivo — visible solo en combate dual -->
+        <div id="target-select" class="hidden">
+          <span class="target-label">Objetivo:</span>
+          <button class="btn-target btn-target-activo" id="btn-target-1" onclick="seleccionarTarget(1)">🧙‍♀️ Bruja</button>
+          <button class="btn-target" id="btn-target-2" onclick="seleccionarTarget(2)">👹 Ghoul</button>
+        </div>
+
+        <!-- Indicadores de estado del enemigo -->
         <div id="combat-status-bar">
-          <span id="combat-burn" class="status-badge hidden">🔥 Quemando</span>
+          <span id="combat-burn"       class="status-badge hidden">🔥 Quemando</span>
           <span id="combat-crit-flash" class="status-badge crit-badge hidden">⚡ CRÍTICO</span>
+          <span id="combat-stun-enemy" class="status-badge hidden">😵 Aturdido</span>
+        </div>
+
+        <!-- Indicadores de estado del jugador -->
+        <div id="player-status-bar">
+          <span id="combat-sangrado"   class="status-badge sangrado-badge hidden">🩸 Sangrando</span>
+          <span id="combat-stun-self"  class="status-badge stun-badge hidden">😵 Aturdido</span>
+          <span id="combat-quen-badge" class="status-badge quen-badge hidden">🔵 Quen activo</span>
+          <span id="combat-yrden-badge" class="status-badge yrden-badge hidden">🟣 Yrden activo</span>
         </div>
 
         <!-- Log del turno -->
@@ -115,14 +172,29 @@
 
       <!-- Botones de combate -->
       <div id="combat-options">
-        <button class="btn-combat btn-attack" onclick="combatAction('atacar')">
-          ⚔️ Atacar
+        <button class="btn-combat btn-fast"  id="btn-fast"  onclick="combatAction('ataque_rapido')">
+          ⚡ Rápido
+        </button>
+        <button class="btn-combat btn-heavy" id="btn-heavy" onclick="combatAction('ataque_pesado')">
+          🗡️ Pesado
         </button>
         <button class="btn-combat btn-dodge" onclick="combatAction('esquivar')">
           🛡️ Esquivar
         </button>
-        <button class="btn-combat btn-igni" id="btn-igni" onclick="combatAction('igni')">
-          🔥 Señal Igni
+        <button class="btn-combat btn-quen"  id="btn-quen"  onclick="combatAction('quen')">
+          🔵 Quen
+        </button>
+        <button class="btn-combat btn-yrden" id="btn-yrden" onclick="combatAction('yrden')">
+          🟣 Yrden
+        </button>
+        <button class="btn-combat btn-aard"  id="btn-aard"  onclick="combatAction('aard')">
+          💨 Aard
+        </button>
+        <button class="btn-combat btn-igni"  id="btn-igni"  onclick="combatAction('igni')">
+          🔥 Igni
+        </button>
+        <button class="btn-combat btn-venda" id="btn-venda" onclick="combatAction('usar_venda')">
+          🩹 Venda
         </button>
       </div>
 
@@ -130,9 +202,28 @@
 
   </div>
 
+  <!-- =====================================================
+       CAJA DE DIÁLOGO — fija al fondo, sobre todo
+  ====================================================== -->
+  <div id="dialogue-box" class="hidden">
+
+    <div id="dialogue-portrait-side">
+      <img id="dialogue-portrait" src="" alt="retrato">
+      <span id="dialogue-speaker"></span>
+    </div>
+
+    <div id="dialogue-content">
+      <p id="dialogue-text"></p>
+      <button id="dialogue-next" onclick="nextDialogueLine()">Continuar ▶</button>
+    </div>
+
+  </div>
+
   <!-- Notificaciones flotantes de stats -->
   <div id="notification" class="hidden"></div>
 
+  <script src="effects.js"></script>
+  <script src="dialogue.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

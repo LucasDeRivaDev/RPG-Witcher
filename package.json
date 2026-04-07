@@ -1,0 +1,24 @@
+{
+  "name": "rpg-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dialogue.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasDeRivaDev/RPG-Witcher.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LucasDeRivaDev/RPG-Witcher/issues"
+  },
+  "homepage": "https://github.com/LucasDeRivaDev/RPG-Witcher#readme",
+  "dependencies": {
+    "@imgly/background-removal-node": "^1.4.5"
+  }
+}
